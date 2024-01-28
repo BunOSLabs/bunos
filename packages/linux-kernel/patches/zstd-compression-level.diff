@@ -1,0 +1,30 @@
+diff --git a/init/Kconfig b/init/Kconfig
+index 8d4e836e1..ad65b683d 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1994,3 +1994,12 @@ config ARCH_HAS_SYNC_CORE_BEFORE_USERMODE
+ # <asm/syscall_wrapper.h>.
+ config ARCH_HAS_SYSCALL_WRAPPER
+ 	def_bool n
++
++config MODULE_COMPRESS_ZSTD_LEVEL
++    int "Compression level (1-22)"
++    depends on MODULE_COMPRESS_ZSTD
++    range 1 22
++    default 3
++    help
++        Compression level used by zstd for compressing modules.
++
+diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+index 0afd75472..abec1f4be 100644
+--- a/scripts/Makefile.modinst
++++ b/scripts/Makefile.modinst
+@@ -146,7 +146,7 @@ quiet_cmd_gzip = GZIP    $@
+ quiet_cmd_xz = XZ      $@
+       cmd_xz = $(XZ) --check=crc32 --lzma2=dict=1MiB -f $<
+ quiet_cmd_zstd = ZSTD    $@
+-      cmd_zstd = $(ZSTD) -T0 --rm -f -q $<
++      cmd_zstd = $(ZSTD) -$(CONFIG_MODULE_COMPRESS_ZSTD_LEVEL) -T0 --rm -f -q $<
+ 
+ $(dst)/%.ko.gz: $(dst)/%.ko FORCE
+ 	$(call cmd,gzip)

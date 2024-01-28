@@ -1,0 +1,14 @@
+{
+  "name": "@bunos/bunos",
+  "private": true,
+  "module": "index.ts",
+  "type": "module",
+  "workspaces": ["packages/*"],
+  "devDependencies": {
+    "@types/bun": "^1.0.4",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.4",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {}
+}
